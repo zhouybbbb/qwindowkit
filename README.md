@@ -34,7 +34,15 @@ This project inherited most of [FramelessHelper](https://github.com/wangwenx190/
 
 ## Quick Start
 
-TODO
+This project relies heavily on `qmsetup`, which must be installed for CMake Configue to succeed. If you do not install `qmsetup` or specify a valid `qmsetup_DIR`, `qmsetup` will be automatically pulled from remote repository and installed in the current directory. You can disable this behavior by setting `QWINDOWKIT_DISABLE_FETCH_PACKAGES`. You can also clone `qmsetup` to the current directory in advance.
+
+```sh
+git clone https://github.com/stdware/qmsetup.git
+```
+```sh
+git clone git@github.com:stdware/qmsetup.git
+```
+
 
 ## Documentatons
 

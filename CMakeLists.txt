@@ -3,6 +3,11 @@ cmake_minimum_required(VERSION 3.17)
 project(QWindowKit VERSION 0.0.1.1 LANGUAGES CXX)
 
 # ----------------------------------
+# Configure Options
+# ----------------------------------
+option(QWINDOWKIT_DISABLE_FETCH_PACKAGES "Disable fetching remote packages if not found" OFF)
+
+# ----------------------------------
 # Build Options
 # ----------------------------------
 option(QWINDOWKIT_BUILD_STATIC "Build static libraries" OFF)
@@ -46,28 +51,14 @@ set(QWINDOWKIT_INSTALL_NAME ${PROJECT_NAME})
 # ----------------------------------
 # Find basic dependencies
 # ----------------------------------
-find_package(qmsetup QUIET)
+if(QWINDOWKIT_DISABLE_FETCH_PACKAGES)
+    find_package(qmsetup REQUIRED)
+else()
+    find_package(qmsetup QUIET)
 
-if(NOT TARGET qmsetup::library)
-    # Modify this variable according to your project structure
-    set(_source_dir ${CMAKE_CURRENT_SOURCE_DIR}/qmsetup)
-
-    # Import install function
-    include("${_source_dir}/cmake/modules/InstallPackage.cmake")
-
-    # Install package in place
-    set(_package_path)
-    qm_install_package(qmsetup
-        SOURCE_DIR ${_source_dir}
-        BUILD_TYPE Release
-        RESULT_PATH _package_path
-    )
-
-    # Find package again
-    find_package(qmsetup REQUIRED PATHS ${_package_path})
-
-    # Update import path
-    set(qmsetup_DIR ${_package_path} CACHE PATH "" FORCE)
+    if(NOT TARGET qmsetup::library)
+        include("cmake/setup-qmsetup.cmake")
+    endif()
 endif()
 
 qm_import(Filesystem)
