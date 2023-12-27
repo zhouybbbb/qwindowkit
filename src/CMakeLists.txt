@@ -211,6 +211,12 @@ if(QWINDOWKIT_INSTALL)
         DESTINATION ${_install_dir}
     )
 
+    # generate the export targets for the build tree
+    export(EXPORT ${QWINDOWKIT_INSTALL_NAME}Targets
+        FILE "${QWINDOWKIT_INSTALL_NAME}Targets.cmake"
+        NAMESPACE ${QWINDOWKIT_INSTALL_NAME}::
+    )
+
     # Install shared files
     include("../share/install.cmake")
 endif()
